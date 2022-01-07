@@ -4,6 +4,8 @@ import java.text.NumberFormat;
 import java.util.Scanner;
 
 public class Main {
+    final static byte MONTH_IN_YEAR= 12;
+    final static byte PERCENT = 100;
 
     public static void main(String[] args) {
 
@@ -14,7 +16,19 @@ public class Main {
     double mortgage = calculateMortgage(principal, annualInterest, years);
 
         String formattedMortgage = NumberFormat.getCurrencyInstance().format(mortgage);
-        System.out.println("Mortage is : " + formattedMortgage);
+        System.out.println();
+        System.out.println("MORTGAGE");
+        System.out.println("-------");
+        System.out.println("Monthly Payment : " + formattedMortgage);
+
+        System.out.println();
+        System.out.println("PAYMENT SCHEDULE");
+        System.out.println("--------");
+        for (short month = 1; month <= years * MONTH_IN_YEAR; month++) {
+            double balance = calculateBalance(principal, annualInterest, years, month);
+            String formattedBalance = NumberFormat.getCurrencyInstance().format(balance);
+            System.out.println(formattedBalance);
+        }
 
     }
 
@@ -38,16 +52,28 @@ public class Main {
             float annualInterest,
             byte years) {
 
-        final byte MONTH_IN_YEAR= 12;
-        final byte PERCENT = 100;
         float monthlyInterest = annualInterest/ PERCENT / MONTH_IN_YEAR;
         short numberOfPayments = (short)(years * MONTH_IN_YEAR);
-
 
         double mortgage = principal
                 * (monthlyInterest * Math.pow(1 + monthlyInterest, numberOfPayments))
                 / (Math.pow(1 + monthlyInterest, numberOfPayments) - 1);
         return mortgage;
     }
+
+
+    public static double calculateBalance (int principal, float annualInterest, byte years, short numberOfPaymentsMade) {
+
+        short numberOfPayments = (short)(years * MONTH_IN_YEAR);
+        float monthlyInterest = annualInterest / PERCENT / MONTH_IN_YEAR;
+        double balance = principal *
+                ( ( Math.pow(1 + monthlyInterest, numberOfPayments) ) - (Math.pow(1 + monthlyInterest, numberOfPaymentsMade)) )
+                /
+                ( ( Math.pow(1 + monthlyInterest, numberOfPayments) ) - (1) )
+                ;
+        return balance;
+
+    }
+
 
 }
