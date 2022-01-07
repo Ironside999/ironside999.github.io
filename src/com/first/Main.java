@@ -13,14 +13,21 @@ public class Main {
         float annualInterest = (float) (readNumber("Annual Interest Rate : ", 0, 30));
         byte years = (byte) (readNumber("Period (Years)", 0, 30));
 
-    double mortgage = calculateMortgage(principal, annualInterest, years);
+        printMortgage(principal, annualInterest, years);
+        printPaymentSchedule(principal, annualInterest, years);
 
+    }
+
+    private static void printMortgage(int principal, float annualInterest, byte years) {
+        double mortgage = calculateMortgage(principal, annualInterest, years);
         String formattedMortgage = NumberFormat.getCurrencyInstance().format(mortgage);
         System.out.println();
         System.out.println("MORTGAGE");
         System.out.println("-------");
         System.out.println("Monthly Payment : " + formattedMortgage);
+    }
 
+    private static void printPaymentSchedule(int principal, float annualInterest, byte years) {
         System.out.println();
         System.out.println("PAYMENT SCHEDULE");
         System.out.println("--------");
@@ -29,7 +36,6 @@ public class Main {
             String formattedBalance = NumberFormat.getCurrencyInstance().format(balance);
             System.out.println(formattedBalance);
         }
-
     }
 
     //read number from input
