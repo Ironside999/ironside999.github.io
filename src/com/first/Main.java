@@ -7,50 +7,32 @@ public class Main {
 
     public static void main(String[] args) {
 
+        int principal = (int) (readNumber("Principal : ", 1_000, 1_000_000));
+        float annualInterest = (float) (readNumber("Annual Interest Rate : ", 0, 30));
+        byte years = (byte) (readNumber("Period (Years)", 0, 30));
 
-
-
-        Scanner scanner = new Scanner(System.in);
-        int principal;
-        float annualInterest;
-        byte years;
-
-
-        //p
-       while (true) {
-           System.out.print("Principal : ");
-           principal = scanner.nextInt();
-           if (principal >=1_000 && principal <= 1_000_000) {
-               break;
-           }
-           System.out.println("please enter a number between 1,000 AND 1,000,000");
-       }
-
-       while (true) {
-           System.out.print("Annual Interest Rate : ");
-           //r
-           annualInterest = scanner.nextFloat();
-           if (annualInterest >= 0 && annualInterest <= 30)
-                break;
-
-           System.out.println("please enter a number less or equal than 30 AND greater than or equal 0");
-       }
-
-       while (true) {
-           System.out.print("Period (Years) : ");
-           //n
-           years = scanner.nextByte();
-           if (years >= 1 && years <= 30)
-               break;
-
-           System.out.println("please enter a number greater than 0 AND less than 30");
-       }
     double mortgage = calculateMortgage(principal, annualInterest, years);
 
         String formattedMortgage = NumberFormat.getCurrencyInstance().format(mortgage);
         System.out.println("Mortage is : " + formattedMortgage);
 
     }
+
+    //read number from input
+    public static double readNumber (String prompt, int min, int max) {
+        Scanner scanner = new Scanner(System.in);
+        double value;
+        while (true) {
+            System.out.print(prompt);
+            value = scanner.nextDouble();
+            if (value >= min && value <= max)
+                break;
+            System.out.println("please enter a number less or equal than " + max + "AND greater than or equal" + min);
+        }
+        return value;
+    }
+
+    //calculate mortgage
     public static double calculateMortgage (
             int principal,
             float annualInterest,
